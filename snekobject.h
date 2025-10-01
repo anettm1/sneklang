@@ -11,4 +11,4 @@ typedef struct SnekObject{
     snek_object_data_t data;
 }snek_object_t;
 
-snek_object_t *new_snek_ineteger(int value);
+snek_object_t *new_snek_integer(int value);
