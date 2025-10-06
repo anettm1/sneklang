@@ -9,9 +9,26 @@ int main(){
 
     snek_object_t* float_num = new_snek_float(3.5);
     printf("%.2f\n", float_num->data.v_float);
+    free(float_num);
 
     char* message = "My name is Snek.";
     snek_object_t* string = new_snek_string(message);
     printf("%s\n", string->data.v_string);
+    free(string->data.v_string);
+    free(string);
+
+    snek_object_t *x = new_snek_integer(2);
+    snek_object_t *y = new_snek_float(2.4);
+    snek_object_t *z = new_snek_string("hello user");
+    snek_object_t *vec = new_snek_vector3(x, y, z);
+    printf("%d\n", vec->data.v_vector3.x->data.v_int);
+    printf("%.2f\n", vec->data.v_vector3.y->data.v_float);
+    printf("%s\n", vec->data.v_vector3.z->data.v_string);
+    free(x);
+    free(y);
+    free(z);
+    free(vec);
+
+
     return 0;
 }
