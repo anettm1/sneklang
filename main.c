@@ -49,6 +49,9 @@ int main(){
 
     printf("Array[1st el.]: %s\n", retrieved_el1->data.v_string);
     printf("Array[2nd el.]: %d\n", retrieved_el2->data.v_int);
+    free(el1->data.v_string);
+    free(el1);
+    free(el2);
     free(array->data.v_array.elements);
     free(array);
     
