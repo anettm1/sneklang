@@ -1,6 +1,22 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "snekobject.h"
+
+bool snek_array_set(snek_object_t *snek_obj, size_t idx, snek_object_t *value){
+    if(snek_obj == NULL && value == NULL){return false;}
+    if(snek_obj->kind != ARRAY){return false;}
+    if(idx >= snek_obj->data.v_array.size){return false;}
+    snek_obj->data.v_array.elements[idx] = value;
+    return true;
+}
+
+snek_object_t *snek_array_get(snek_object_t *snek_obj, size_t idx){
+    if(snek_obj == NULL){return NULL;}
+    if(snek_obj->kind != ARRAY){return NULL;}
+    if(idx >= snek_obj->data.v_array.size){return NULL;}
+    return snek_obj->data.v_array.elements[idx];
+}
 
 snek_object_t *new_snek_array(size_t size){
     snek_object_t *obj = malloc(sizeof(snek_object_t));
