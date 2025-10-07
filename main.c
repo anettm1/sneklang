@@ -32,6 +32,8 @@ int main(){
     snek_object_t *array = new_snek_array(2);
     printf("Array kind: %d\n", array->kind);
     printf("Array size: %zu\n", array->data.v_array.size);
+    free(array->data.v_array.elements);
+    free(array);
 
     return 0;
 }
