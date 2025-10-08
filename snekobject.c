@@ -3,6 +3,23 @@
 #include <stdbool.h>
 #include "snekobject.h"
 
+int snek_length(snek_object_t *obj){
+    if(obj == NULL){return -1;}
+    switch(obj->kind){
+        case INTEGER:
+        case FLOAT:
+            return 1;
+        case STRING:
+            return (int)strlen(obj->data.v_string);
+        case VECTOR3:
+            return 3;
+        case ARRAY:
+            return (int)obj->data.v_array.size;
+        default:
+            return -1;
+    }
+}
+
 bool snek_array_set(snek_object_t *snek_obj, size_t idx, snek_object_t *value){
     if(snek_obj == NULL && value == NULL){return false;}
     if(snek_obj->kind != ARRAY){return false;}

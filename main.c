@@ -38,7 +38,6 @@ int main(){
     printf("Array kind: %d\n", array->kind);
     printf("Array size: %zu\n", array->data.v_array.size);
     
-
     //array get and set
     snek_object_t *el1 = new_snek_string("hi");
     snek_object_t *el2 = new_snek_integer(2);
@@ -55,6 +54,39 @@ int main(){
     free(array->data.v_array.elements);
     free(array);
     
+    //length
+    snek_object_t *val1 = new_snek_integer(34);
+    int lenVal1 = snek_length(val1);
+    printf("Length of val1: %d\n", lenVal1);
+    free(val1);
+
+    snek_object_t *val2 = new_snek_float(3.14);
+    int lenVal2 = snek_length(val2);
+    printf("Length of val2: %d\n", lenVal2);
+    free(val2);
+
+    snek_object_t *msg = new_snek_string("Hello World!");
+    int lenMsg= snek_length(msg);
+    printf("Length of msg: %d\n", lenMsg);
+    free(msg);
+
+    snek_object_t *val3 = new_snek_integer(5);
+    snek_object_t *vector = new_snek_vector3(val3, val3, val3);
+    int lenVec = snek_length(vector);
+    printf("Length of vector3: %d\n", lenVec);
+    free(val3);
+    free(vector);
+
+    snek_object_t *val4 = new_snek_integer(7);
+    snek_object_t *arr = new_snek_array(4);
+    snek_array_set(arr, 0, val4);
+    snek_array_set(arr, 1, val4);
+    snek_array_set(arr, 2, val4);
+    int lenArr = snek_length(arr);
+    printf("Length of array: %d\n", lenArr);
+    free(val4);
+    free(arr->data.v_array.elements);
+    free(arr);
 
     return 0;
 }

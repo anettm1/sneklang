@@ -2,6 +2,8 @@
 
 typedef struct SnekObject snek_object_t;
 
+int snek_length(snek_object_t *obj);
+
 typedef struct SnekArray {
     size_t size;
     snek_object_t **elements;
