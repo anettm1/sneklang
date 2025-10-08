@@ -30,6 +30,7 @@ int main(){
     printf("Vector[3rd el.]: %s\n", vec->data.v_vector3.z->data.v_string);
     free(x);
     free(y);
+    free(z->data.v_string);
     free(z);
     free(vec);
 
@@ -68,6 +69,7 @@ int main(){
     snek_object_t *msg = new_snek_string("Hello World!");
     int lenMsg= snek_length(msg);
     printf("Length of msg: %d\n", lenMsg);
+    free(msg->data.v_string);
     free(msg);
 
     snek_object_t *val3 = new_snek_integer(5);
@@ -87,6 +89,82 @@ int main(){
     free(val4);
     free(arr->data.v_array.elements);
     free(arr);
+
+    //add
+    snek_object_t *a_int = new_snek_integer(2);
+    snek_object_t *b_int = new_snek_integer(4);
+    snek_object_t *ab_int = snek_add(a_int, b_int);
+    printf("Add integers: %d\n", ab_int->data.v_int);
+    free(a_int);
+    free(b_int);
+    free(ab_int);
+
+    snek_object_t *a_f = new_snek_float(4.5);
+    snek_object_t *b_f = new_snek_float(5.0);
+    snek_object_t *ab_f = snek_add(a_f, b_f);
+    printf("Add floats: %.2f\n", ab_f->data.v_float);
+    free(a_f);
+    free(b_f);
+    free(ab_f);
+
+    snek_object_t *a_str = new_snek_string("hello ");
+    snek_object_t *b_str = new_snek_string("world!");
+    snek_object_t *ab_str = snek_add(a_str, b_str);
+    printf("Add strings: %s\n", ab_str->data.v_string);
+    free(a_str->data.v_string);
+    free(a_str);
+    free(b_str->data.v_string);
+    free(b_str);
+    free(ab_str->data.v_string);
+    free(ab_str);
+
+    snek_object_t *a_vec_1 = new_snek_integer(1);
+    snek_object_t *a_vec_2 = new_snek_integer(2);
+    snek_object_t *a_vec_3 = new_snek_integer(3);
+    snek_object_t *b_vec_1 = new_snek_integer(4);
+    snek_object_t *b_vec_2 = new_snek_integer(5);
+    snek_object_t *b_vec_3 = new_snek_integer(6);
+    snek_object_t *vec1 = new_snek_vector3(a_vec_1, a_vec_2, a_vec_3);
+    snek_object_t *vec2 = new_snek_vector3(b_vec_1, b_vec_2, b_vec_3);
+    snek_object_t *add_vec = snek_add(vec1, vec2);
+    printf("Vector3: %d %d %d\n", add_vec->data.v_vector3.x->data.v_int,
+        add_vec->data.v_vector3.y->data.v_int,
+        add_vec->data.v_vector3.z->data.v_int);
+    free(vec1->data.v_vector3.x);
+    free(vec1->data.v_vector3.y);
+    free(vec1->data.v_vector3.z);
+    free(vec1);
+    free(vec2->data.v_vector3.x);
+    free(vec2->data.v_vector3.y);
+    free(vec2->data.v_vector3.z);
+    free(vec2);
+    free(add_vec->data.v_vector3.x);
+    free(add_vec->data.v_vector3.y);
+    free(add_vec->data.v_vector3.z);
+    free(add_vec);
+
+    snek_object_t *arr1_val = new_snek_integer(1);
+    snek_object_t *arr1 = new_snek_array(2);
+    snek_array_set(arr1, 0, arr1_val);
+    snek_array_set(arr1, 1, arr1_val);
+    snek_object_t *arr2_val = new_snek_string("hello");
+    snek_object_t *arr2 = new_snek_array(3);
+    snek_array_set(arr2, 0, arr2_val);
+    snek_array_set(arr2, 1, arr2_val);
+    snek_array_set(arr2, 2, arr2_val);
+    snek_object_t *add_arr = snek_add(arr1, arr2);
+    snek_object_t *arr_first = snek_array_get(add_arr, 0);
+    snek_object_t *arr_fifth = snek_array_get(add_arr, 4);
+    printf("Array(1st el.): %d\n", arr_first->data.v_int);
+    printf("Array(5th el.): %s\n", arr_fifth->data.v_string);
+    free(arr1_val);
+    free(arr1->data.v_array.elements);
+    free(arr2_val->data.v_string);
+    free(arr2_val);
+    free(arr2->data.v_array.elements);
+    free(arr2);
+    free(add_arr->data.v_array.elements);
+    free(add_arr);
 
     return 0;
 }

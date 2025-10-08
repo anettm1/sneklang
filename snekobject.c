@@ -3,6 +3,76 @@
 #include <stdbool.h>
 #include "snekobject.h"
 
+snek_object_t *snek_add(snek_object_t *a, snek_object_t *b){
+    if(a == NULL || b == NULL){return NULL;}
+    switch(a->kind){
+        case INTEGER:
+            switch(b->kind){
+                case INTEGER:
+                    return new_snek_integer(a->data.v_int + b->data.v_int);
+                case FLOAT:
+                    return new_snek_float((float)a->data.v_int + b->data.v_float);
+                default:
+                    return NULL;
+            }
+        case FLOAT:
+            switch(b->kind){
+                case INTEGER: 
+                    return new_snek_float(a->data.v_float + (float)b->data.v_int);
+                case FLOAT:
+                    return new_snek_float(a->data.v_float + b->data.v_float);
+                default:
+                    return NULL;
+            }
+        case STRING:
+            switch(b->kind){
+                case STRING:
+                    size_t a_len = strlen(a->data.v_string);
+                    size_t b_len = strlen(b->data.v_string);
+                    size_t len = a_len + b_len + 1;
+                    char *dst = calloc(len, sizeof(char));
+                    if(dst == NULL){return NULL;}
+                    memcpy(dst, a->data.v_string, a_len);
+                    memcpy(dst + a_len, b->data.v_string, b_len + 1);
+                    snek_object_t *obj = new_snek_string(dst);
+                    free(dst);
+                    return obj;
+                default:
+                    return NULL;
+            }
+        case VECTOR3:
+            switch(b->kind){
+                case VECTOR3:
+                    return new_snek_vector3(
+                            snek_add(a->data.v_vector3.x, b->data.v_vector3.x),
+                            snek_add(a->data.v_vector3.y, b->data.v_vector3.y),
+                            snek_add(a->data.v_vector3.z, b->data.v_vector3.z)
+                        );
+                default:
+                    return NULL;
+            }
+        case ARRAY:
+            switch(b->kind){
+                case ARRAY:
+                    size_t a_len = a->data.v_array.size;
+                    size_t b_len = b->data.v_array.size;
+                    size_t len = a_len + b_len;
+                    snek_object_t *arr = new_snek_array(len);
+                    for(size_t i = 0; i < a_len; i++){
+                        snek_array_set(arr, i, snek_array_get(a, i));
+                    }
+                    for(size_t i = 0; i < b_len; i++){
+                        snek_array_set(arr, i + a_len, snek_array_get(b, i));
+                    }
+                    return arr;
+                default:
+                    return NULL;
+            }
+        default:
+            return NULL;
+    }
+}
+
 int snek_length(snek_object_t *obj){
     if(obj == NULL){return -1;}
     switch(obj->kind){
