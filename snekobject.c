@@ -3,6 +3,13 @@
 #include <stdbool.h>
 #include "snekobject.h"
 
+snek_object_t *_new_snek_object(){
+    snek_object_t *obj = malloc(sizeof(snek_object_t));
+    if(obj == NULL){return NULL;}
+    obj->refcount = 1;
+    return obj;
+}
+
 snek_object_t *snek_add(snek_object_t *a, snek_object_t *b){
     if(a == NULL || b == NULL){return NULL;}
     switch(a->kind){
@@ -106,7 +113,7 @@ snek_object_t *snek_array_get(snek_object_t *snek_obj, size_t idx){
 }
 
 snek_object_t *new_snek_array(size_t size){
-    snek_object_t *obj = malloc(sizeof(snek_object_t));
+    snek_object_t *obj = _new_snek_object();
     if(obj == NULL){return NULL;}
 
     obj->kind = ARRAY;
@@ -127,7 +134,7 @@ snek_object_t *new_snek_vector3(
     snek_object_t *x, snek_object_t *y, snek_object_t *z
 ){
     if(x == NULL || y == NULL || z == NULL){return NULL;}
-    snek_object_t *obj = malloc(sizeof(snek_object_t));
+    snek_object_t *obj = _new_snek_object();
     if(obj == NULL){return NULL;}
     obj->kind = VECTOR3;
     obj->data.v_vector3 = (snek_vector_t){.x=x, .y=y, .z=z};
@@ -135,7 +142,7 @@ snek_object_t *new_snek_vector3(
 }
 
 snek_object_t *new_snek_string(char* value){
-    snek_object_t *obj = malloc(sizeof(snek_object_t));
+    snek_object_t *obj = _new_snek_object();
     if(obj == NULL){return NULL;}
     size_t len = strlen(value);
     char* dst = malloc(len + 1);
@@ -150,7 +157,7 @@ snek_object_t *new_snek_string(char* value){
 }
 
 snek_object_t *new_snek_float(float value){
-    snek_object_t *obj = malloc(sizeof(snek_object_t));
+    snek_object_t *obj = _new_snek_object();
     if(obj == NULL){return NULL;}
     obj->kind = FLOAT;
     obj->data.v_float = value;
@@ -158,7 +165,7 @@ snek_object_t *new_snek_float(float value){
 }
 
 snek_object_t *new_snek_integer(int value){
-    snek_object_t *obj = malloc(sizeof(snek_object_t));
+    snek_object_t *obj = _new_snek_object();
     if(obj == NULL){return NULL;}
     obj->kind = INTEGER;
     obj->data.v_int = value;
