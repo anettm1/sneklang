@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 #include "snekobject.h"
 
 void refcount_free(snek_object_t *obj){
@@ -22,7 +23,8 @@ void refcount_free(snek_object_t *obj){
             }
             free(obj->data.v_array.elements);
             break;
-        default: break;
+        default:
+            assert(false);
     }
     free(obj);
 }
